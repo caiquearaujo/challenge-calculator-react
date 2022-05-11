@@ -1,0 +1,24 @@
+@import "@/styles/core/_all.scss";
+
+$keypad-gap: 6px;
+$keypad-bg-light: #f9f9f9;
+
+.calculator-keypad {
+	width: 100%;
+	padding: 32px 24px;
+	border-radius: 48px 48px 0 0;
+	background-color: $keypad-bg-light;
+
+	.keypad {
+		margin: 0 auto;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		max-width: 308px;
+		padding: $keypad-gap;
+
+		.calculator-key {
+			margin: $keypad-gap;
+		}
+	}
+}

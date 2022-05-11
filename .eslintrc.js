@@ -86,6 +86,6 @@ module.exports = {
 		'no-void': 'off',
 		'no-case-declarations': 'off',
 		'no-var': 'error',
-		// 'react/prop-types': 'off',
+		'react/prop-types': 'off',
 	},
 };

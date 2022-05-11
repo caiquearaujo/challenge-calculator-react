@@ -10,4 +10,7 @@ module.exports = {
 	},
 	coveragePathIgnorePatterns: ['./node_modules/', './test/'],
 	coverageReporters: ['json-summary', 'text', 'lcov'],
+	moduleNameMapper: {
+		'@(.*)$': '<rootDir>/src/$1',
+	},
 };

@@ -1,26 +1,11 @@
-$keypad-gap: 6px;
-
-$keypad-bg-light: #f9f9f9;
-
-.wrapper-keypad {
-	width: 100%;
-	padding: 32px 24px;
-	border-radius: 48px 48px 0 0;
+.calculator {
 	position: fixed;
-	bottom: 0;
-	left: 0;
-	background-color: $keypad-bg-light;
-}
-
-.calculator-keypad {
-	margin: 0 auto;
+	width: 100%;
+	height: 100%;
 	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	max-width: 308px;
-	padding: $keypad-gap;
+	flex-direction: column;
 
-	.calculator-key {
-		margin: $keypad-gap;
+	.container {
+		margin-top: auto;
 	}
 }
