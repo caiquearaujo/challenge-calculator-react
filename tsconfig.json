@@ -19,14 +19,9 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"baseUrl": "./",
-		"paths": {
-			"@/*": [
-				"src/*"
-			]
-		},
 	},
 	"include": [
-		"src"
-	]
+		"./src/**/*",
+	],
+	"extends": "./tsconfig.paths.json"
 }
