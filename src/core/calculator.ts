@@ -64,6 +64,11 @@ export default class Calculator {
 		});
 	}
 
+	public changeSign() {
+		const { display } = this._state;
+		this.apply({ display: (parseFloat(display) * -1).toString() });
+	}
+
 	public operation(o: TOperator): void {
 		const { value, display, operator, waiting } = this._state;
 		const currValue = parseFloat(display);

@@ -25,7 +25,7 @@ const keys = [
 	{ key: '2', cb: (calc: Calculator) => calc.digit('2') },
 	{ key: '3', cb: (calc: Calculator) => calc.digit('3') },
 	{ key: 'plus', cb: (calc: Calculator) => calc.operation('+') },
-	{ key: 'signal' },
+	{ key: 'signal', cb: (calc: Calculator) => calc.changeSign() },
 	{ key: '0', cb: (calc: Calculator) => calc.digit('0') },
 	{ key: 'point' },
 	{ key: 'equals', cb: (calc: Calculator) => calc.operation('=') },

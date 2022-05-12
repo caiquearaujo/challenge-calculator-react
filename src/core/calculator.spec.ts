@@ -23,6 +23,23 @@ describe('Calculator', () => {
 		expect(state).toStrictEqual({ ...state, display: '12' });
 	});
 
+	it('should change digits sign to negative', () => {
+		calculator.digit('1');
+		calculator.digit('2');
+		calculator.changeSign();
+
+		expect(state).toStrictEqual({ ...state, display: '-12' });
+	});
+
+	it('should change digits sign to positive', () => {
+		calculator.digit('1');
+		calculator.digit('2');
+		calculator.changeSign();
+		calculator.changeSign();
+
+		expect(state).toStrictEqual({ ...state, display: '12' });
+	});
+
 	it('should ignore zeros on left', () => {
 		calculator.digit('0');
 		calculator.digit('0');
