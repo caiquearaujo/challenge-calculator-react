@@ -120,6 +120,40 @@ export default class Calculator {
 		this.apply({ waiting: true, operator: o, history });
 	}
 
+	public percent() {
+		const { value, display, history } = this._state;
+		let currValue = parseFloat(display);
+
+		if (currValue === 0) return;
+
+		const { decimal } = this.numDetails(display);
+
+		history.push(display);
+		history.push('%');
+		// empty space to keep percert after operations
+		history.push('');
+
+		if (value) {
+			const newValue = this._operations['*'](
+				value || 0,
+				(currValue /= 100)
+			);
+
+			return this.apply({
+				waiting: true,
+				value: newValue,
+				display: newValue.toFixed(decimal + 2),
+				history,
+			});
+		}
+
+		return this.apply({
+			waiting: true,
+			display: (currValue / 100).toFixed(decimal + 2),
+			history,
+		});
+	}
+
 	public point() {
 		const { display } = this._state;
 

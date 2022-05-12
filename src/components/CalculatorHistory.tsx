@@ -10,10 +10,12 @@ export type TCalculatorHistoryProps = React.DetailedHTMLProps<
 	history: Array<string>;
 };
 
-const operators = ['+', '-', '*', '/', '='];
+const operators = ['+', '-', '*', '/', '=', '%'];
 
 const mapHistory = (history: Array<string>) =>
 	history.map((h, i) => {
+		if (!h) return;
+
 		if (operators.includes(h)) {
 			return (
 				<span className="operator" key={`history-${i}`}>

@@ -11,7 +11,7 @@ export type TCalculatorKeyPadProps = {
 const keys = [
 	{ key: 'clear-all', cb: (calc: Calculator) => calc.clearAll() },
 	{ key: 'clear', cb: (calc: Calculator) => calc.clearDisplay() },
-	{ key: 'percent' },
+	{ key: 'percent', cb: (calc: Calculator) => calc.percent() },
 	{ key: 'divide', cb: (calc: Calculator) => calc.operation('/') },
 	{ key: '7', cb: (calc: Calculator) => calc.digit('7') },
 	{ key: '8', cb: (calc: Calculator) => calc.digit('8') },
@@ -29,7 +29,7 @@ const keys = [
 	{ key: '0', cb: (calc: Calculator) => calc.digit('0') },
 	{ key: 'point', cb: (calc: Calculator) => calc.point() },
 	{ key: 'equals', cb: (calc: Calculator) => calc.operation('=') },
-] as Array<{ key: TCalculatorKey; cb?: (calc: Calculator) => void }>;
+] as Array<{ key: TCalculatorKey; cb: (calc: Calculator) => void }>;
 
 export default function CalculatorKeyPad(props: TCalculatorKeyPadProps) {
 	const { calculator } = props;
