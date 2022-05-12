@@ -1,4 +1,4 @@
-import Calculator, { TCalculatorState } from './calculator';
+import Calculator, { TCalculatorState, TOperator } from './calculator';
 
 let state = {
 	value: null,
@@ -12,79 +12,148 @@ const setState: any = (s: any) => (state = s);
 
 const calculator = new Calculator(state, setState);
 
+const doExpression = (exp: Array<string>, calculator: Calculator) => {
+	exp.forEach(e => {
+		const match = e.match(/([doepf!])(?:[:](.*))?/i) as RegExpMatchArray;
+
+		if (match[1] === 'd') {
+			for (const c of match[2]) {
+				calculator.digit(c);
+			}
+
+			return;
+		}
+
+		if (match[1] === 'p') {
+			calculator.percent();
+			return;
+		}
+
+		if (match[1] === 'f') {
+			calculator.point();
+			return;
+		}
+
+		if (match[1] === '!') {
+			calculator.changeSign();
+			return;
+		}
+
+		calculator.operation(match[2] as TOperator);
+	});
+};
+
 afterEach(() => {
 	calculator.clearAll();
 });
 
 describe('Calculator', () => {
-	it('should add digits to state display', () => {
-		calculator.digit('1');
-		calculator.digit('2');
+	const display = [
+		{ exp: ['d:12'], asn: '12', m: 'add digits' },
+		{
+			exp: ['d:12', '!'],
+			asn: '-12',
+			m: 'change sign to negative',
+		},
+		{
+			exp: ['d:12', '!', '!'],
+			asn: '12',
+			m: 'change sign back to positive',
+		},
+		{ exp: ['d:00012'], asn: '12', m: 'ignore zeros on left' },
+		{ exp: ['d:12000'], asn: '12000', m: 'accept zeros on right' },
+		{ exp: ['d:99999999'], asn: '99999999', m: 'accept 8 digits' },
+		{
+			exp: ['d:9999999999'],
+			asn: '99999999',
+			m: 'ignore more than 8 digits',
+		},
+		{
+			exp: ['d:12', 'f', 'd:5'],
+			asn: '12.5',
+			m: 'accept decimal places',
+		},
+		{
+			exp: ['d:12', 'f', 'd:578'],
+			asn: '12.578',
+			m: 'accept 3 decimal places',
+		},
+		{
+			exp: ['d:12', 'f', 'd:5785'],
+			asn: '12.578',
+			m: 'ignore more than 3 decimal places',
+		},
+		{
+			exp: ['f', 'd:47'],
+			asn: '0.47',
+			m: 'accept zero with decimal places',
+		},
+		{
+			exp: ['d:10', 'o:+', 'd:10', 'o:='],
+			asn: '20',
+			m: 'sum values',
+		},
+		{
+			exp: ['d:10', 'o:+', 'd:10', 'o:+'],
+			asn: '20',
+			m: 'sum values without equals operator',
+		},
+		{
+			exp: ['o:+', 'd:10', 'o:='],
+			asn: '10',
+			m: 'sum values without start value',
+		},
+		{
+			exp: ['d:10', 'o:-', 'd:20', 'o:='],
+			asn: '-10',
+			m: 'subtract values',
+		},
+		{
+			exp: ['d:10', 'o:-', 'd:10', 'o:-'],
+			asn: '0',
+			m: 'subtract values without equals operator',
+		},
+		// TODO
+		// {
+		// 	exp: ['o:-', 'd:10', 'o:='],
+		// 	asn: '-10',
+		// 	m: 'subtract values without start value',
+		// },
+		{
+			exp: ['d:10', 'o:*', 'd:10', 'o:='],
+			asn: '100',
+			m: 'multiply values',
+		},
+		{
+			exp: ['d:10', 'o:*', 'd:10', 'o:+'],
+			asn: '100',
+			m: 'multiply values without equals operator',
+		},
+		{
+			exp: ['o:*', 'd:10', 'o:='],
+			asn: '10',
+			m: 'multiply values without start value',
+		},
+		{
+			exp: ['d:10', 'o:/', 'd:10', 'o:='],
+			asn: '1',
+			m: 'dvide values',
+		},
+		{
+			exp: ['d:100', 'o:/', 'd:10', 'o:/'],
+			asn: '10',
+			m: 'divide values without equals operator',
+		},
+		{
+			exp: ['o:/', 'd:10', 'o:='],
+			asn: '10',
+			m: 'divide values without start value',
+		},
+	];
 
-		expect(state).toStrictEqual({ ...state, display: '12' });
-	});
-
-	it('should change digits sign to negative', () => {
-		calculator.digit('1');
-		calculator.digit('2');
-		calculator.changeSign();
-
-		expect(state).toStrictEqual({ ...state, display: '-12' });
-	});
-
-	it('should change digits sign to positive', () => {
-		calculator.digit('1');
-		calculator.digit('2');
-		calculator.changeSign();
-		calculator.changeSign();
-
-		expect(state).toStrictEqual({ ...state, display: '12' });
-	});
-
-	it('should ignore zeros on left', () => {
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('1');
-		calculator.digit('2');
-
-		expect(state).toStrictEqual({ ...state, display: '12' });
-	});
-
-	it('should stop to adding digits after 8 digits added', () => {
-		calculator.digit('1');
-		calculator.digit('2');
-		calculator.digit('3');
-		calculator.digit('4');
-		calculator.digit('5');
-		calculator.digit('6');
-		calculator.digit('7');
-		calculator.digit('8');
-		calculator.digit('9');
-		calculator.digit('9');
-
-		expect(state).toStrictEqual({ ...state, display: '12345678' });
-	});
-
-	it('should add digits with decimal places to state display', () => {
-		calculator.digit('1');
-		calculator.digit('2');
-		calculator.point();
-		calculator.digit('5');
-
-		expect(state).toStrictEqual({ ...state, display: '12.5' });
-	});
-
-	it('should not add more than 3 decimal places to state display', () => {
-		calculator.digit('1');
-		calculator.digit('2');
-		calculator.point();
-		calculator.digit('5');
-		calculator.digit('6');
-		calculator.digit('7');
-		calculator.digit('8');
-
-		expect(state).toStrictEqual({ ...state, display: '12.567' });
+	it.each(display)('should $m on $exp as $asn', ({ exp, asn }) => {
+		doExpression(exp, calculator);
+		expect(state).toStrictEqual({ ...state, display: asn });
 	});
 
 	it('should clear all', () => {
@@ -168,106 +237,22 @@ describe('Calculator', () => {
 		});
 	});
 
-	it('should sum with start 0 and store on value', () => {
-		calculator.operation('+');
-		calculator.digit('1');
-		calculator.operation('=');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '1',
-			value: 1,
-			operator: '=',
-			waiting: true,
-		});
-	});
-
-	it('should sum and store on value', () => {
-		calculator.digit('1');
-		calculator.operation('+');
-		calculator.digit('1');
-		calculator.operation('+');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '2',
-			value: 2,
-			operator: '+',
-			waiting: true,
-		});
-	});
-
-	it('should plus and store on value', () => {
-		calculator.digit('1');
-		calculator.operation('+');
-		calculator.digit('2');
-		calculator.operation('=');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '3',
-			value: 3,
-			operator: '=',
-			waiting: true,
-		});
-	});
-
-	it('should minus and store on value', () => {
-		calculator.digit('1');
-		calculator.operation('-');
-		calculator.digit('2');
-		calculator.operation('=');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '-1',
-			value: -1,
-			operator: '=',
-			waiting: true,
-		});
-	});
-
-	it('should times and store on value', () => {
-		calculator.digit('1');
-		calculator.operation('*');
-		calculator.digit('2');
-		calculator.operation('=');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '2',
-			value: 2,
-			operator: '=',
-			waiting: true,
-		});
-	});
-
-	it('should div and store on value', () => {
-		calculator.digit('2');
-		calculator.operation('/');
-		calculator.digit('1');
-		calculator.operation('=');
-
-		expect(state).toStrictEqual({
-			...state,
-			display: '2',
-			value: 2,
-			operator: '=',
-			waiting: true,
-		});
-	});
-
 	it('should do complex operation and store on value', () => {
-		calculator.digit('12');
-		calculator.operation('+');
-		calculator.digit('18');
-		calculator.operation('-');
-		calculator.digit('6');
-		calculator.operation('*');
-		calculator.digit('16');
-		calculator.operation('/');
-		calculator.digit('2');
-		calculator.operation('=');
+		doExpression(
+			[
+				'd:12',
+				'o:+',
+				'd:18',
+				'o:-',
+				'd:6',
+				'o:*',
+				'd:16',
+				'o:/',
+				'd:2',
+				'o:=',
+			],
+			calculator
+		);
 
 		expect(state).toStrictEqual({
 			...state,
@@ -279,15 +264,10 @@ describe('Calculator', () => {
 	});
 
 	it('should continue calculation after equal and store on value', () => {
-		calculator.digit('10');
-		calculator.operation('+');
-		calculator.digit('10');
-		calculator.operation('=');
-		calculator.operation('+');
-		calculator.digit('6');
-		calculator.operation('+');
-		calculator.digit('2');
-		calculator.operation('=');
+		doExpression(
+			['d:10', 'o:+', 'd:10', 'o:=', 'o:+', 'd:6', 'o:+', 'd:2', 'o:='],
+			calculator
+		);
 
 		expect(state).toStrictEqual({
 			...state,
@@ -299,14 +279,10 @@ describe('Calculator', () => {
 	});
 
 	it('should restart calculation after equal and store on value', () => {
-		calculator.digit('10');
-		calculator.operation('+');
-		calculator.digit('10');
-		calculator.operation('=');
-		calculator.digit('6');
-		calculator.operation('+');
-		calculator.digit('2');
-		calculator.operation('=');
+		doExpression(
+			['d:10', 'o:+', 'd:10', 'o:=', 'd:6', 'o:+', 'd:2', 'o:='],
+			calculator
+		);
 
 		expect(state).toStrictEqual({
 			...state,
@@ -318,24 +294,7 @@ describe('Calculator', () => {
 	});
 
 	it('should return error when digits are greater than 8', () => {
-		calculator.digit('1');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.operation('+');
-		calculator.digit('9');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.digit('0');
-		calculator.operation('=');
+		doExpression(['d:10000000', 'o:+', 'd:90000000', 'o:='], calculator);
 
 		expect(state).toStrictEqual({
 			...state,
@@ -344,5 +303,11 @@ describe('Calculator', () => {
 			operator: '=',
 			waiting: true,
 		});
+	});
+
+	it('should solve percent expression', () => {
+		const exp = ['d:120', 'o:*', 'd:30', 'p', 'o:='];
+		doExpression(exp, calculator);
+		expect(state.display).toBe('36.00');
 	});
 });

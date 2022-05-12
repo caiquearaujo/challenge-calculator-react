@@ -87,7 +87,7 @@ export default class Calculator {
 
 	public operation(o: TOperator): void {
 		const { value, display, operator, waiting, history } = this._state;
-		const currValue = parseFloat(display);
+		const currValue = parseFloat(display || '0');
 
 		if (waiting) {
 			if (operator !== o && o) {

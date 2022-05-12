@@ -4,7 +4,7 @@ import CalculatorDisplay from '@/components/CalculatorDisplay';
 import CalculatorKeyPad from '@/components/CalculatorKeyPad';
 import Calculator, { TCalculatorState } from '@/core/calculator';
 import CalculatorHistory from './components/CalculatorHistory';
-import ThemeSelector from './components/ThemeSelector';
+import ThemeSelector, { TThemeColor } from './components/ThemeSelector';
 
 export default function App() {
 	const [state, setState] = useState<TCalculatorState>({
@@ -15,7 +15,7 @@ export default function App() {
 		history: [],
 	});
 
-	const [theme, setTheme] = useState<'light' | 'dark'>('light');
+	const [theme, setTheme] = useState<TThemeColor>('light');
 
 	const calculator = new Calculator(state, setState);
 
@@ -23,7 +23,7 @@ export default function App() {
 		<main className={`calculator ${theme}`}>
 			<ThemeSelector
 				selected={theme}
-				changeTo={(to: 'light' | 'dark') => setTheme(to)}
+				changeTo={(to: TThemeColor) => setTheme(to)}
 			/>
 			<div className="container">
 				<CalculatorHistory history={state.history} />
