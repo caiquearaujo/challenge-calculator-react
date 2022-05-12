@@ -1,6 +1,10 @@
 export function parseNumber(value: string): string {
-	return parseFloat(value).toLocaleString(navigator.language || 'en-US', {
-		useGrouping: true,
-		maximumFractionDigits: 3,
-	});
+	const num = parseFloat(value);
+
+	return isNaN(num)
+		? 'ERR'
+		: num.toLocaleString(navigator.language || 'en-US', {
+				useGrouping: true,
+				maximumFractionDigits: 3,
+		  });
 }
