@@ -4,6 +4,7 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	transition: background-color .2s, color .2s;
 
 	&.light {
 		background-color: #FFF;
