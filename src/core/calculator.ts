@@ -7,6 +7,7 @@ export type TCalculatorState = {
 	display: string;
 	operator: TOperator;
 	waiting: boolean;
+	history: Array<string>;
 };
 
 export default class Calculator {
@@ -35,6 +36,7 @@ export default class Calculator {
 			display: '0',
 			operator: null,
 			waiting: false,
+			history: [],
 		});
 	}
 
@@ -53,12 +55,17 @@ export default class Calculator {
 	}
 
 	public digit(d: string): void {
-		const { display, waiting } = this._state;
+		const { display, waiting, operator, history } = this._state;
 
 		if (waiting) {
+			let _history = history;
+
+			if (operator === '=') _history = [];
+
 			return this.apply({
 				display: d,
 				waiting: false,
+				history: _history,
 			});
 		}
 
@@ -79,11 +86,16 @@ export default class Calculator {
 	}
 
 	public operation(o: TOperator): void {
-		const { value, display, operator, waiting } = this._state;
+		const { value, display, operator, waiting, history } = this._state;
 		const currValue = parseFloat(display);
 
 		if (waiting) {
-			if (operator !== o) this.apply({ operator: o });
+			if (operator !== o && o) {
+				history.pop();
+				if (o) history.push(o);
+
+				this.apply({ operator: o, history });
+			}
 			return;
 		}
 
@@ -103,7 +115,9 @@ export default class Calculator {
 			this.apply({ value: newValue, display: strValue });
 		}
 
-		this.apply({ waiting: true, operator: o });
+		history.push(display);
+		if (o) history.push(o);
+		this.apply({ waiting: true, operator: o, history });
 	}
 
 	public point() {

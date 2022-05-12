@@ -5,6 +5,7 @@ let state = {
 	display: '0',
 	operator: null,
 	waiting: false,
+	history: [],
 } as TCalculatorState;
 
 const setState: any = (s: any) => (state = s);
@@ -96,6 +97,7 @@ describe('Calculator', () => {
 			display: '0',
 			operator: null,
 			waiting: false,
+			history: [],
 		}).toStrictEqual({ ...state, display: '0' });
 	});
 
