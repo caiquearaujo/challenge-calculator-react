@@ -1,3 +1,4 @@
+import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import CalculatorKey, { TCalculatorKey } from './CalculatorKey';
 
@@ -24,7 +25,7 @@ describe('Calculator Key', () => {
 	];
 
 	it.each(keys)('should render calculator key %s.', async key => {
-		render(<CalculatorKey calcKey={key} onPress={e => true} />);
+		render(<CalculatorKey calcKey={key} onPress={() => true} />);
 		expect(screen.getByRole('button')).toHaveClass(
 			`calculator-key key-${key}`
 		);

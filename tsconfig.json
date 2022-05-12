@@ -22,6 +22,8 @@
 	},
 	"include": [
 		"./src/**/*",
+		"./tests/**/*.ts",
+		"./tests/**/*.tsx"
 	],
 	"extends": "./tsconfig.paths.json"
 }

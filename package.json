@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
-		"test": "react-app-rewired test",
+		"test": "react-app-rewired test --coverage",
 		"eject": "react-scripts eject",
 		"lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
 		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
