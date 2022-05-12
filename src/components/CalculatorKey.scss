@@ -143,3 +143,10 @@ button.calculator-key {
 		content: "AC";
 	}
 }
+
+@media screen and (max-width: 380px) {
+	button.calculator-key {
+		width: 56px;
+		height: 56px;
+	}
+}

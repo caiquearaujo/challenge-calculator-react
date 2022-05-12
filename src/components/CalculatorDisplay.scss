@@ -5,3 +5,10 @@
 	font-weight: 600;
 	letter-spacing: 2px;
 }
+
+@media screen and (max-width: 380px) {
+	.calculator-display {
+		padding: 12px 24px 24px;
+		font-size: 4.2rem;
+	}
+}

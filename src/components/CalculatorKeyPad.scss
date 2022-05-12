@@ -31,3 +31,13 @@ $keypad-bg-dark: #292d36;
 		}
 	}
 }
+
+@media screen and (max-width: 380px) {
+	.calculator-keypad {
+		padding: 32px 16px;
+
+		.keypad {
+			max-width: 284px;
+		}
+	}
+}

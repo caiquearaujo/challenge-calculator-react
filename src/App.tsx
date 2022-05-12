@@ -15,7 +15,7 @@ export default function App() {
 		history: [],
 	});
 
-	const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+	const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
 	const calculator = new Calculator(state, setState);
 
