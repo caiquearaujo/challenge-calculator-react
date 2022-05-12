@@ -1,0 +1,14 @@
+.calculator-display {
+	padding: 12px 36px 48px;
+	text-align: right;
+	font-size: 5.6rem;
+	font-weight: 600;
+	letter-spacing: 2px;
+}
+
+@media screen and (max-width: 380px) {
+	.calculator-display {
+		padding: 12px 24px 24px;
+		font-size: 4.2rem;
+	}
+}

@@ -1,0 +1,62 @@
+.theme-selector {
+	display: flex;
+	flex-direction: row;
+	position: fixed;
+	left: 50%;
+	top: 16px;
+	transform: translateX(-50%);
+
+	.button {
+		width: 42px;
+		height: 42px;
+		position: relative;
+		margin-right: 12px;
+		cursor: pointer;
+		border-radius: 100%;
+		transition: background-color .2s;
+
+		.light &:hover {
+			background-color: rgba(0,0,0,.15);
+		}
+
+		.dark &:hover {
+			background-color: rgba(255,255,255,.15);
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		svg {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -1px;
+			transform: translate(-50%, -50%);
+			opacity: .35;
+			transition: opacity .2s, stroke .2s, fill .2s;
+		}
+
+		&.selected svg {
+			opacity: 1;
+		}
+	}
+
+	.sun {
+		width: 21px;
+	}
+
+	.moon {
+		width: 16px;
+	}
+
+	.light & svg {
+		stroke: #000;
+		fill: #000;
+	}
+
+	.dark & svg {
+		stroke: #FFF;
+		fill: #FFF;
+	}
+}

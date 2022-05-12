@@ -1,0 +1,43 @@
+@import "@/styles/core/_all.scss";
+
+$keypad-gap: 6px;
+$keypad-bg-light: #f9f9f9;
+$keypad-bg-dark: #292d36;
+
+.calculator-keypad {
+	width: 100%;
+	padding: 32px 24px;
+	border-radius: 48px 48px 0 0;
+	transition: background-color .2s;
+
+	.light & {
+		background-color: $keypad-bg-light;
+	}
+
+	.dark & {
+		background-color: $keypad-bg-dark;
+	}
+
+	.keypad {
+		margin: 0 auto;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		max-width: 308px;
+		padding: $keypad-gap;
+
+		.calculator-key {
+			margin: $keypad-gap;
+		}
+	}
+}
+
+@media screen and (max-width: 380px) {
+	.calculator-keypad {
+		padding: 32px 16px;
+
+		.keypad {
+			max-width: 284px;
+		}
+	}
+}

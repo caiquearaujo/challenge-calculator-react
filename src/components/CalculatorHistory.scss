@@ -1,0 +1,19 @@
+@import "@/styles/core/_all.scss";
+
+.calculator-history {
+	padding: 12px 36px;
+	text-align: right;
+	font-size: 1.6rem;
+	letter-spacing: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	span {
+		padding: 6px;
+	}
+
+	.operator {
+		color: $red;
+	}
+}

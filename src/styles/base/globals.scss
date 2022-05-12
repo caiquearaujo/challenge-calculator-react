@@ -1,0 +1,22 @@
+.calculator {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	transition: background-color .2s, color .2s;
+
+	&.light {
+		background-color: #FFF;
+		color: #000;
+	}
+
+	&.dark {
+		background-color: #22252d;
+		color: #FFF;
+	}
+
+	.container {
+		margin-top: auto;
+	}
+}
