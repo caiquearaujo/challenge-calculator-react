@@ -78,13 +78,10 @@ button.calculator-key {
 		content: "9";
 	}
 
-	&.key-plus::before,
-	&.key-minus::before,
-	&.key-times::before,
-	&.key-divide::before,
-	&.key-equals::before {
-		font-size: $button-font-size + 0.6rem;
+	&.operator::before {
+		font-size: 3.4rem;
 		color: $red;
+		font-weight: normal;
 	}
 
 	&.key-clear::before,
@@ -92,8 +89,23 @@ button.calculator-key {
 		color: $green;
 	}
 
+	&.key-percent::before {
+		content: "\0025";
+		font-size: 2.2rem;
+		font-weight: bold;
+	}
+
 	&.key-plus::before {
 		content: "\002B";
+	}
+
+	&.key-signal::before {
+		content: "\00B1";
+	}
+
+	&.key-point::before {
+		content: "\00B7";
+		font-size: 3.4rem;
 	}
 
 	&.key-minus::before {

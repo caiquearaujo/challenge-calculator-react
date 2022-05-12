@@ -12,6 +12,9 @@ export type TCalculatorKey =
 	| '7'
 	| '8'
 	| '9'
+	| 'percent'
+	| 'point'
+	| 'signal'
 	| 'plus'
 	| 'minus'
 	| 'times'
@@ -31,11 +34,23 @@ export type TCalculatorKeyProps = React.DetailedHTMLProps<
 
 export default function CalculatorKey(props: TCalculatorKeyProps) {
 	const { calcKey, onPress, ...rest } = props;
+
+	const hasOperator = [
+		'percent',
+		'plus',
+		'minus',
+		'times',
+		'divide',
+		'equals',
+	].indexOf(calcKey);
+
 	return (
 		<button
 			{...rest}
 			onClick={onPress}
-			className={`calculator-key key-${calcKey}`}
+			className={`calculator-key key-${calcKey} ${
+				hasOperator !== -1 ? 'operator' : ''
+			}`}
 		/>
 	);
 }
