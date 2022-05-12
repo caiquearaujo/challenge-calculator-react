@@ -65,6 +65,27 @@ describe('Calculator', () => {
 		expect(state).toStrictEqual({ ...state, display: '12345678' });
 	});
 
+	it('should add digits with decimal places to state display', () => {
+		calculator.digit('1');
+		calculator.digit('2');
+		calculator.point();
+		calculator.digit('5');
+
+		expect(state).toStrictEqual({ ...state, display: '12.5' });
+	});
+
+	it('should not add more than 3 decimal places to state display', () => {
+		calculator.digit('1');
+		calculator.digit('2');
+		calculator.point();
+		calculator.digit('5');
+		calculator.digit('6');
+		calculator.digit('7');
+		calculator.digit('8');
+
+		expect(state).toStrictEqual({ ...state, display: '12.567' });
+	});
+
 	it('should clear all', () => {
 		calculator.digit('1');
 		calculator.digit('2');

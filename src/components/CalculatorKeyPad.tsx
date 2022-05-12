@@ -27,7 +27,7 @@ const keys = [
 	{ key: 'plus', cb: (calc: Calculator) => calc.operation('+') },
 	{ key: 'signal', cb: (calc: Calculator) => calc.changeSign() },
 	{ key: '0', cb: (calc: Calculator) => calc.digit('0') },
-	{ key: 'point' },
+	{ key: 'point', cb: (calc: Calculator) => calc.point() },
 	{ key: 'equals', cb: (calc: Calculator) => calc.operation('=') },
 ] as Array<{ key: TCalculatorKey; cb?: (calc: Calculator) => void }>;
 

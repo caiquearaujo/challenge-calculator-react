@@ -12,6 +12,7 @@ export type TCalculatorState = {
 export default class Calculator {
 	private _state: TCalculatorState;
 	private _apply: React.Dispatch<React.SetStateAction<TCalculatorState>>;
+
 	private _operations = {
 		'/': (p: number, n: number): number => p / n,
 		'*': (p: number, n: number): number => p * n,
@@ -46,16 +47,24 @@ export default class Calculator {
 	}
 
 	public clearDisplay(): void {
-		this.apply({ display: '0' });
+		this.apply({
+			display: '0',
+		});
 	}
 
 	public digit(d: string): void {
 		const { display, waiting } = this._state;
 
 		if (waiting) {
-			return this.apply({ display: d, waiting: false });
+			return this.apply({
+				display: d,
+				waiting: false,
+			});
 		}
-		if (display.length >= 8) {
+
+		const { integer, decimal, isFloat } = this.numDetails(display);
+
+		if ((integer >= 8 && !isFloat) || (decimal >= 3 && isFloat)) {
 			return;
 		}
 
@@ -84,7 +93,9 @@ export default class Calculator {
 			let newValue = this._operations[operator](value || 0, currValue);
 			let strValue = newValue.toString();
 
-			if (strValue.length > 8) {
+			const { integer } = this.numDetails(display);
+
+			if (integer >= 8) {
 				newValue = 0;
 				strValue = 'ERR';
 			}
@@ -93,6 +104,24 @@ export default class Calculator {
 		}
 
 		this.apply({ waiting: true, operator: o });
+	}
+
+	public point() {
+		const { display } = this._state;
+
+		if (!/\./.test(display)) {
+			this.apply({ display: display + '.', waiting: false });
+		}
+	}
+
+	public numDetails(value: string) {
+		const number = value.split('.');
+
+		return {
+			integer: (number[0] || '').length,
+			decimal: (number[1] || '').length,
+			isFloat: value.indexOf('.') !== -1,
+		};
 	}
 
 	protected apply(state: Partial<TCalculatorState>): void {
