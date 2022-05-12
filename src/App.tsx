@@ -14,10 +14,12 @@ export default function App() {
 		history: [],
 	});
 
+	const [theme] = useState<'light' | 'dark'>('dark');
+
 	const calculator = new Calculator(state, setState);
 
 	return (
-		<main className="calculator">
+		<main className={`calculator ${theme}`}>
 			<div className="container">
 				<CalculatorHistory history={state.history} />
 				<CalculatorDisplay value={state.display} />

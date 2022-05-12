@@ -5,6 +5,16 @@
 	display: flex;
 	flex-direction: column;
 
+	&.light {
+		background-color: #FFF;
+		color: #000;
+	}
+
+	&.dark {
+		background-color: #22252d;
+		color: #FFF;
+	}
+
 	.container {
 		margin-top: auto;
 	}

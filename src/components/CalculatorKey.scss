@@ -1,8 +1,9 @@
 @import "@/styles/core/_all.scss";
 
-$button-bg-color: #f7f7f7;
-$button-bg-hover-color: #ececec;
-$button-color: #000;
+$button-bg-light-color: #f7f7f7;
+$button-bg-light-hover-color: #ececec;
+$button-bg-dark-color: #272b33;
+$button-bg-dark-hover-color: #22252b;
 $button-radius: 12px;
 $button-dim: 62px;
 $button-font-size: 2.4rem;
@@ -11,15 +12,25 @@ $button-weight: 500;
 button.calculator-key {
 	width: $button-dim;
 	height: $button-dim;
-	background-color: $button-bg-color;
-	color: $button-color;
 	border-radius: $button-radius;
 	position: relative;
 	transition: background-color 0.2s;
 	cursor: pointer;
 
-	&:hover {
-		background-color: $button-bg-hover-color;
+	.light & {
+		background-color: $button-bg-light-color;
+	}
+
+	.dark & {
+		background-color: $button-bg-dark-color;
+	}
+
+	.light &:hover {
+		background-color: $button-bg-light-hover-color;
+	}
+
+	.dark &:hover {
+		background-color: $button-bg-dark-hover-color;
 	}
 
 	&.key-empty {
